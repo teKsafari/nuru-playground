@@ -79,6 +79,7 @@ zima(5)
   const programStateRef = useRef<ProgramState>("idle")
   const [currentLine, setCurrentLine] = useState(-1)
   const [error, setError] = useState<string | null>(null)
+  const [loop, setLoop] = useState(false)
 
   const commandInputRef = useRef<HTMLInputElement>(null)
   const outputRef = useRef<HTMLDivElement>(null)
@@ -161,12 +162,18 @@ zima(5)
     // Msaidizi wa kutekeleza kila mstari mmoja baada ya mwingine
     const runLine = async (i: number): Promise<void> => {
       if (i >= lines.length) {
-        // Mwisho wa programu, simamisha utekelezaji
-        addOutput("✨ Programu imekamilika kwa mafanikio!", "success")
-        setProgramState("idle")
-        programStateRef.current = "idle"
-        setCurrentLine(-1)
-        return
+        if (loop && programStateRef.current === "running") {
+          setCurrentLine(-1)
+          setTimeout(() => runLine(0), 0)
+          return
+        } else {
+          // Mwisho wa programu, simamisha utekelezaji
+          addOutput("✨ Programu imekamilika kwa mafanikio!", "success")
+          setProgramState("idle")
+          programStateRef.current = "idle"
+          setCurrentLine(-1)
+          return
+        }
       }
       if (programStateRef.current !== 'running') {
         setCurrentLine(-1)
@@ -238,16 +245,25 @@ zima(5)
         <Card className="flex-1">
           <CardContent className="p-4 h-full flex flex-col">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium">Mhariri wa Msimbo</h3>
-              <div className="flex gap-2">
+              <h3 className="text-lg font-medium">Mhariri</h3>
+              <div className="flex gap-2 items-center">
+                <label className="flex items-center gap-1 text-xs select-none">
+                  <input
+                    type="checkbox"
+                    checked={loop}
+                    onChange={e => setLoop(e.target.checked)}
+                    className="accent-blue-600"
+                  />
+                  Rudiarudia (loop)
+                </label>
                 <Button
                   onClick={runProgram}
                   disabled={programState === "running"}
                   size="sm"
                   className="flex items-center gap-2"
                 >
-                  <Play size={16} />
-                  {programState === "running" ? "Inaendelea..." : "Tekeleza Programu"}
+                  
+                  {programState === "running" ? " ..." : <Play size={16} />}
                 </Button>
                 <Button
                   onClick={stopProgram}
@@ -257,11 +273,11 @@ zima(5)
                   className="flex items-center gap-2"
                 >
                   <Square size={16} />
-                  Simamisha
+                
                 </Button>
                 <Button onClick={resetComponents} size="sm" variant="outline" className="flex items-center gap-2">
                   <RotateCcw size={16} />
-                  Resetisha
+                 
                 </Button>
               </div>
             </div>
