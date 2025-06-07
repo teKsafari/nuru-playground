@@ -27,40 +27,14 @@ export default function ElectronicsSimulator() {
 
   const [code, setCode] = useState(
     `
-// Mfano: Mzunguko wa kuwasha kila kifaa kimoja kimoja, kisha kuwasha vyote mwishoni
-// Kila kifaa kitawashwa kwa nusu sekunde, mwishoni vyote vitawashwa moja baada ya nyingine
+// Mfano: kawasha LED (taa) na buzzer   
 
 washa(1)
-subiri(500)
+washa(4)
+subiri(1000)
 zima(1)
-
-washa(2)
-subiri(500)
-zima(2)
-
-washa(3)
-subiri(500)
-zima(3)
-
-washa(4)
-subiri(500)
 zima(4)
-
-washa(5)
-subiri(500)
-zima(5)
-
-// Sasa washa vyote moja baada ya nyingine
-washa(1)
-subiri(300)
-washa(2)
-subiri(300)
-washa(3)
-subiri(300)
-washa(4)
-subiri(300)
-zima(4) 
-washa(5)
+subiri(1000)
     `
   );
 
@@ -270,7 +244,10 @@ washa(5)
                   {programState === "running" ? " ..." : <Play size={16} />}
                 </Button>
                 <Button
-                  onClick={stopProgram}
+                  onClick={() => {
+                    stopProgram();
+                    resetComponents();
+                  }}
                   disabled={programState !== "running"}
                   size="sm"
                   variant="destructive"
@@ -278,14 +255,7 @@ washa(5)
                 >
                   <Square size={16} />
                 </Button>
-                <Button
-                  onClick={resetComponents}
-                  size="sm"
-                  variant="outline"
-                  className="flex items-center gap-2"
-                >
-                  <RotateCcw size={16} />
-                </Button>
+               
               </div>
             </div>
 
