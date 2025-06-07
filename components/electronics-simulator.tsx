@@ -25,24 +25,35 @@ export default function ElectronicsSimulator() {
     { active: false, type: "motor" }, // Component 5: Motor
   ]);
 
-  const [code, setCode] = useState(
-    `
-// Mfano: kawasha na kuzima vifaa vyote
+  // Msimbo wa programu
+
+  const exampleCode = `// Mfano: kawasha na kuzima vifaa vyote
 
 washa(1)
+subiri(200)
 washa(2)
+subiri(200)
 washa(3)
+subiri(200)
 washa(4)
+subiri(200)
 washa(5)
-subiri(1000)
+subiri(200)
 
 zima(1)
+subiri(200)
 zima(2)
+subiri(200)
 zima(3)
+subiri(200)
 zima(4)
-subiri(1000)
+subiri(200)
+zima(5)
+subiri(200)
+    
     `
-  );
+
+  const [code, setCode] = useState(exampleCode);
 
   const [command, setCommand] = useState("");
   const [output, setOutput] = useState<string[]>([]);
@@ -238,7 +249,7 @@ subiri(1000)
                     setCode("");
                     setCodeCleared(true);
                   } else {
-                    setCode(`// Mfano: kawasha LED (taa) na buzzer   \n\nwasha(1)\nwasha(4)\nsubiri(1000)\nzima(1)\nzima(4)\nsubiri(1000)`);
+                    setCode(`${exampleCode}`);
                     setCodeCleared(false);
                   }
                 }}
