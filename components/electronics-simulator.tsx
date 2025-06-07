@@ -244,12 +244,17 @@ subiri(1000)
                 {codeCleared ? "Onyesha Mfano" : "Safisha"}
               </Button>
               <div className="flex gap-2 items-center">
-                <label className="flex items-center gap-1 text-xs select-none">
+                <label
+                  className={`flex items-center gap-1 text-xs select-none ${
+                  programState === "running" ? "text-gray-400" : ""
+                  }`}
+                >
                   <input
-                    type="checkbox"
-                    checked={loop}
-                    onChange={(e) => setLoop(e.target.checked)}
-                    className="accent-blue-600"
+                  type="checkbox"
+                  checked={loop}
+                  onChange={(e) => setLoop(e.target.checked)}
+                  className="accent-blue-600"
+                  disabled={programState === "running"}
                   />
                   Rudiarudia (loop)
                 </label>
