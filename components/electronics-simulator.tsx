@@ -26,7 +26,8 @@ export default function ElectronicsSimulator() {
   ]);
 
   const [code, setCode] = useState(
-    `// Mfano: Mzunguko wa kuwasha kila kifaa kimoja kimoja, kisha kuwasha vyote mwishoni
+    `
+// Mfano: Mzunguko wa kuwasha kila kifaa kimoja kimoja, kisha kuwasha vyote mwishoni
 // Kila kifaa kitawashwa kwa nusu sekunde, mwishoni vyote vitawashwa moja baada ya nyingine
 
 washa(1)
@@ -60,7 +61,7 @@ washa(4)
 subiri(300)
 zima(4) 
 washa(5)
-`
+    `
   );
 
   const [command, setCommand] = useState("");
@@ -69,7 +70,7 @@ washa(5)
   const programStateRef = useRef<ProgramState>("idle");
   const [currentLine, setCurrentLine] = useState(-1);
   const [error, setError] = useState<string | null>(null);
-  const [loop, setLoop] = useState(false);
+  const [loop, setLoop] = useState(true);
 
   const commandInputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
@@ -499,10 +500,10 @@ function Buzzer({ active, label }: { active: boolean; label: string }) {
 
         // Set buzzer frequency (800Hz is a typical buzzer frequency)
         oscillator.frequency.setValueAtTime(
-          800,
+          1200,
           audioContextRef.current.currentTime
         );
-        oscillator.type = "square"; // Square wave for buzzer-like sound
+        oscillator.type = "sine"; // Square wave for buzzer-like sound
 
         // Set volume (start low to avoid being too loud)
         gainNode.gain.setValueAtTime(0.1, audioContextRef.current.currentTime);
