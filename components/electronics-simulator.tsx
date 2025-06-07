@@ -618,53 +618,113 @@ function Buzzer({ active, label }: { active: boolean; label: string }) {
         )}
       </motion.div>
       <div className="text-xs mt-1 text-gray-600">BUZZER</div>
-      {active && (
-        <div className="text-xs text-yellow-600 font-medium">♪ BEEPING ♪</div>
-      )}
     </div>
   );
 }
 
 // Motor Component
 function Motor({ active, label }: { active: boolean; label: string }) {
+  // Track rotation position with a ref to avoid re-renders
+  const rotationRef = useRef(0);
+  const [rotationPosition, setRotationPosition] = useState(0);
+  const prevActiveRef = useRef(active);
+  
+  // Update rotation immediately when deactivated
+  useEffect(() => {
+    // Handle motor stopping
+    if (prevActiveRef.current && !active) {
+      // Capture the exact rotation at stop time
+      const element = document.querySelector(`[data-motor-id="${label}"]`) as HTMLElement;
+      if (element) {
+        const transform = element.style.transform;
+        if (transform) {
+          const match = transform.match(/rotate\(([^)]+)deg\)/);
+          if (match && match[1]) {
+            const currentRotation = parseFloat(match[1]) % 360;
+            rotationRef.current = currentRotation;
+            setRotationPosition(currentRotation);
+          }
+        }
+      }
+    }
+    
+    prevActiveRef.current = active;
+  }, [active, label]);
+
   return (
     <div className="flex flex-col items-center">
-      <div className="relative">
+      <motion.div
+        className="relative"
+      >
         <span className="text-xs font-bold text-gray-500 absolute -top-6 left-1/2 -translate-x-1/2">
           {label}
         </span>
 
         {/* Motor Base */}
-        <div className="w-24 h-16 bg-gray-700 rounded-lg flex items-center justify-center relative">
+        <div className={`w-24 h-16 bg-gray-700 rounded-lg flex items-center justify-center relative ${
+          active ? "ring-2 ring-blue-400 ring-opacity-70" : ""
+        }`}>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center z-10">
               <div className="w-2 h-2 rounded-full bg-gray-600"></div>
             </div>
           </div>
 
-          {/* Motor Shaft */}
+          {/* Motor Shaft with enhanced spinning */}
           <motion.div
             className="w-16 h-16 absolute"
-            animate={{ rotate: active ? 360 : 0 }}
+            data-motor-id={label}
+            initial={{ rotate: rotationRef.current }}
+            animate={{ 
+              rotate: active ? [rotationRef.current, rotationRef.current + 360] : rotationRef.current,
+              scale: active ? [1, 1.03, 1] : 1
+            }}
             transition={{
-              repeat: Number.POSITIVE_INFINITY,
-              duration: active ? 1 : 0,
-              ease: "linear",
+              rotate: {
+                repeat: active ? Number.POSITIVE_INFINITY : 0,
+                duration: active ? 0.5 : 0,
+                ease: "linear",
+                immediateRender: true
+              },
+              scale: {
+                repeat: Number.POSITIVE_INFINITY,
+                duration: 0.3,
+              }
             }}
           >
             <div className="absolute top-1/2 left-1/2 w-1 h-8 bg-gray-400 -translate-x-1/2 -translate-y-1/2"></div>
             <div className="absolute top-1/2 left-1/2 w-8 h-1 bg-gray-400 -translate-x-1/2 -translate-y-1/2"></div>
+            
+            {/* Circular sector marker to visualize rotation */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              <div className="relative w-10 h-10">
+                {/* Sector marker */}
+                <div className="absolute w-4 h-4 bg-yellow-300 rounded-sm" 
+                     style={{top: '0px', left: '3px'}}></div>
+              </div>
+            </div>
           </motion.div>
+          
+          {/* Visual spinning indicator */}
+          {active && (
+            <motion.div 
+              className="absolute inset-0 rounded-lg border-2 border-blue-400 opacity-60"
+              initial={{ scale: 1, opacity: 0.6 }}
+              animate={{ scale: 1.1, opacity: 0 }}
+              transition={{
+                repeat: Number.POSITIVE_INFINITY,
+                duration: 0.8,
+                ease: "easeOut",
+              }}
+            />
+          )}
         </div>
 
         {/* Motor Terminals */}
-        <div className="absolute -bottom-2 left-0 w-4 h-4 bg-red-500 rounded-full border-2 border-gray-700"></div>
-        <div className="absolute -bottom-2 right-0 w-4 h-4 bg-blue-500 rounded-full border-2 border-gray-700"></div>
-      </div>
+        <div className={`absolute -bottom-2 left-0 w-4 h-4 ${active ? "bg-red-600" : "bg-red-500"} rounded-full border-2 border-gray-700`}></div>
+        <div className={`absolute -bottom-2 right-0 w-4 h-4 ${active ? "bg-blue-600" : "bg-blue-500"} rounded-full border-2 border-gray-700`}></div>
+      </motion.div>
       <div className="text-xs mt-1 text-gray-600">MOTOR</div>
-      {active && (
-        <div className="text-xs text-blue-600 font-medium">⚡ SPINNING</div>
-      )}
     </div>
   );
 }
