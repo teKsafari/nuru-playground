@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
-import { AlertCircle, Play, Square, RotateCcw } from "lucide-react"
+import { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { AlertCircle, Play, Square, RotateCcw } from "lucide-react";
 
 type ComponentState = {
-  active: boolean
-  type: "led" | "buzzer" | "motor"
-  color?: string
-}
+  active: boolean;
+  type: "led" | "buzzer" | "motor";
+  color?: string;
+};
 
-type ProgramState = "idle" | "running" | "paused"
+type ProgramState = "idle" | "running" | "paused";
 
 export default function ElectronicsSimulator() {
   const [components, setComponents] = useState<ComponentState[]>([
@@ -23,219 +23,223 @@ export default function ElectronicsSimulator() {
     { active: false, type: "led", color: "blue" }, // Component 3: Blue LED
     { active: false, type: "buzzer" }, // Component 4: Buzzer
     { active: false, type: "motor" }, // Component 5: Motor
-  ])
+  ]);
 
-  const [code, setCode] = useState(`// Mfano: Mzunguko wa kuwasha na kuzima vifaa vyote na buzzer
-// Kila kifaa kitawashwa kwa sekunde 1, buzzer itapiga mara 2 kwa kila kifaa
+  const [code, setCode] = useState(
+    `// Mfano: Mzunguko wa kuwasha kila kifaa kimoja kimoja, kisha kuwasha vyote mwishoni
+// Kila kifaa kitawashwa kwa nusu sekunde, mwishoni vyote vitawashwa moja baada ya nyingine
 
-washa(1) 
-washa(4)
-subiri(200)
-zima(4)
-subiri(200)
-washa(4)
-subiri(200)
-zima(4)
-subiri(400)
+washa(1)
+subiri(500)
 zima(1)
 
-washa(2) 
-washa(4)
-subiri(200)
-zima(4)
-subiri(200)
-washa(4)
-subiri(200)
-zima(4)
-subiri(400)
+washa(2)
+subiri(500)
 zima(2)
 
-washa(3) 
-washa(4)
-subiri(200)
-zima(4)
-subiri(200)
-washa(4)
-subiri(200)
-zima(4)
-subiri(400)
+washa(3)
+subiri(500)
 zima(3)
 
+washa(4)
+subiri(500)
+zima(4)
+
 washa(5)
-washa(4)
-subiri(200)
-zima(4)
-subiri(200)
-washa(4)
-subiri(200)
-zima(4)
-subiri(400)
+subiri(500)
 zima(5)
-`)
 
-  const [command, setCommand] = useState("")
-  const [output, setOutput] = useState<string[]>([])
-  const [programState, setProgramState] = useState<ProgramState>("idle")
-  const programStateRef = useRef<ProgramState>("idle")
-  const [currentLine, setCurrentLine] = useState(-1)
-  const [error, setError] = useState<string | null>(null)
-  const [loop, setLoop] = useState(false)
+// Sasa washa vyote moja baada ya nyingine
+washa(1)
+subiri(300)
+washa(2)
+subiri(300)
+washa(3)
+subiri(300)
+washa(4)
+subiri(300)
+zima(4) 
+washa(5)
+`
+  );
 
-  const commandInputRef = useRef<HTMLInputElement>(null)
-  const outputRef = useRef<HTMLDivElement>(null)
-  const executionTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const [command, setCommand] = useState("");
+  const [output, setOutput] = useState<string[]>([]);
+  const [programState, setProgramState] = useState<ProgramState>("idle");
+  const programStateRef = useRef<ProgramState>("idle");
+  const [currentLine, setCurrentLine] = useState(-1);
+  const [error, setError] = useState<string | null>(null);
+  const [loop, setLoop] = useState(false);
+
+  const commandInputRef = useRef<HTMLInputElement>(null);
+  const outputRef = useRef<HTMLDivElement>(null);
+  const executionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Auto-scroll output to bottom
   useEffect(() => {
     if (outputRef.current) {
-      outputRef.current.scrollTop = outputRef.current.scrollHeight
+      outputRef.current.scrollTop = outputRef.current.scrollHeight;
     }
-  }, [output])
+  }, [output]);
 
-  const addOutput = (message: string, type: "info" | "error" | "success" = "info") => {
-    const timestamp = new Date().toLocaleTimeString()
-    const prefix = type === "error" ? "❌" : type === "success" ? "✅" : "ℹ️"
-    setOutput((prev) => [...prev, `[${timestamp}] ${prefix} ${message}`])
-  }
+  const addOutput = (
+    message: string,
+    type: "info" | "error" | "success" = "info"
+  ) => {
+    const timestamp = new Date().toLocaleTimeString();
+    const prefix = type === "error" ? "❌" : type === "success" ? "✅" : "ℹ️";
+    setOutput((prev) => [...prev, `[${timestamp}] ${prefix} ${message}`]);
+  };
 
   const executeCommand = (cmd: string): Promise<void> => {
     return new Promise((resolve, reject) => {
-      const trimmedCmd = cmd.trim()
+      const trimmedCmd = cmd.trim();
 
       if (!trimmedCmd || trimmedCmd.startsWith("//")) {
-        resolve()
-        return
+        resolve();
+        return;
       }
 
       // Tafsiri amri
-      const washaMatch = trimmedCmd.match(/^washa\((\d+)\)$/)
-      const zimaMatch = trimmedCmd.match(/^zima\((\d+)\)$/)
-      const subiriMatch = trimmedCmd.match(/^subiri\((\d+)\)$/)
+      const washaMatch = trimmedCmd.match(/^washa\((\d+)\)$/);
+      const zimaMatch = trimmedCmd.match(/^zima\((\d+)\)$/);
+      const subiriMatch = trimmedCmd.match(/^subiri\((\d+)\)$/);
 
       if (washaMatch) {
-        const componentIndex = Number.parseInt(washaMatch[1]) - 1
+        const componentIndex = Number.parseInt(washaMatch[1]) - 1;
         if (componentIndex >= 0 && componentIndex < components.length) {
-          setComponents((prev) => prev.map((comp, i) => (i === componentIndex ? { ...comp, active: true } : comp)))
-          addOutput(`Kifaa nambari ${componentIndex + 1} kimewashwa`, "success")
-          resolve()
+          setComponents((prev) =>
+            prev.map((comp, i) =>
+              i === componentIndex ? { ...comp, active: true } : comp
+            )
+          );
+          addOutput(
+            `Kifaa nambari ${componentIndex + 1} kimewashwa`,
+            "success"
+          );
+          resolve();
         } else {
-          const errorMsg = `Nambari ya kifaa si sahihi: ${componentIndex + 1}`
-          addOutput(errorMsg, "error")
-          reject(new Error(errorMsg))
+          const errorMsg = `Nambari ya kifaa si sahihi: ${componentIndex + 1}`;
+          addOutput(errorMsg, "error");
+          reject(new Error(errorMsg));
         }
       } else if (zimaMatch) {
-        const componentIndex = Number.parseInt(zimaMatch[1]) - 1
+        const componentIndex = Number.parseInt(zimaMatch[1]) - 1;
         if (componentIndex >= 0 && componentIndex < components.length) {
-          setComponents((prev) => prev.map((comp, i) => (i === componentIndex ? { ...comp, active: false } : comp)))
-          addOutput(`Kifaa nambari ${componentIndex + 1} kimezimwa`, "success")
-          resolve()
+          setComponents((prev) =>
+            prev.map((comp, i) =>
+              i === componentIndex ? { ...comp, active: false } : comp
+            )
+          );
+          addOutput(`Kifaa nambari ${componentIndex + 1} kimezimwa`, "success");
+          resolve();
         } else {
-          const errorMsg = `Nambari ya kifaa si sahihi: ${componentIndex + 1}`
-          addOutput(errorMsg, "error")
-          reject(new Error(errorMsg))
+          const errorMsg = `Nambari ya kifaa si sahihi: ${componentIndex + 1}`;
+          addOutput(errorMsg, "error");
+          reject(new Error(errorMsg));
         }
       } else if (subiriMatch) {
-        const delayMs = Number.parseInt(subiriMatch[1])
-        addOutput(`Inasubiri kwa ${delayMs}ms...`)
+        const delayMs = Number.parseInt(subiriMatch[1]);
+        addOutput(`Inasubiri kwa ${delayMs}ms...`);
         executionTimeoutRef.current = setTimeout(() => {
-          addOutput(`Muda wa kusubiri umeisha`)
-          resolve()
-        }, delayMs)
+          addOutput(`Muda wa kusubiri umeisha`);
+          resolve();
+        }, delayMs);
       } else {
-        const errorMsg = `Amri haijulikani: ${trimmedCmd}`
-        addOutput(errorMsg, "error")
-        reject(new Error(errorMsg))
+        const errorMsg = `Amri haijulikani: ${trimmedCmd}`;
+        addOutput(errorMsg, "error");
+        reject(new Error(errorMsg));
       }
-    })
-  }
+    });
+  };
   const runProgram = async () => {
-    if (programStateRef.current === "running") return
+    if (programStateRef.current === "running") return;
 
-    setProgramState("running")
-    programStateRef.current = "running"
-    setCurrentLine(-1)
-    setError(null)
-    addOutput("🚀 Kuanzisha utekelezaji wa programu...")
+    setProgramState("running");
+    programStateRef.current = "running";
+    setCurrentLine(-1);
+    setError(null);
+    addOutput("🚀 Kuanzisha utekelezaji wa programu...");
 
-    const lines = code.split("\n")
+    const lines = code.split("\n");
 
     // Msaidizi wa kutekeleza kila mstari mmoja baada ya mwingine
     const runLine = async (i: number): Promise<void> => {
       if (i >= lines.length) {
         if (loop && programStateRef.current === "running") {
-          setCurrentLine(-1)
-          setTimeout(() => runLine(0), 0)
-          return
+          setCurrentLine(-1);
+          setTimeout(() => runLine(0), 0);
+          return;
         } else {
           // Mwisho wa programu, simamisha utekelezaji
-          addOutput("✨ Programu imekamilika kwa mafanikio!", "success")
-          setProgramState("idle")
-          programStateRef.current = "idle"
-          setCurrentLine(-1)
-          return
+          addOutput("✨ Programu imekamilika kwa mafanikio!", "success");
+          setProgramState("idle");
+          programStateRef.current = "idle";
+          setCurrentLine(-1);
+          return;
         }
       }
-      if (programStateRef.current !== 'running') {
-        setCurrentLine(-1)
-        return
+      if (programStateRef.current !== "running") {
+        setCurrentLine(-1);
+        return;
       }
-      setCurrentLine(i)
-      const line = lines[i].trim()
+      setCurrentLine(i);
+      const line = lines[i].trim();
       if (line && !line.startsWith("//")) {
-        addOutput(`Inatekeleza: ${line}`)
+        addOutput(`Inatekeleza: ${line}`);
         try {
-          await executeCommand(line)
+          await executeCommand(line);
         } catch (error) {
-          addOutput(`Programu imesimama kutokana na kosa: ${error}", "error`)
-          setProgramState("idle")
-          programStateRef.current = "idle"
-          setError(error instanceof Error ? error.message : String(error))
-          setCurrentLine(-1)
-          return
+          addOutput(`Programu imesimama kutokana na kosa: ${error}", "error`);
+          setProgramState("idle");
+          programStateRef.current = "idle";
+          setError(error instanceof Error ? error.message : String(error));
+          setCurrentLine(-1);
+          return;
         }
       }
       // Nenda kwenye mstari unaofuata baada ya amri ya sasa kukamilika
-      setTimeout(() => runLine(i + 1), 0)
-    }
+      setTimeout(() => runLine(i + 1), 0);
+    };
 
-    runLine(0)
-  }
+    runLine(0);
+  };
 
   const stopProgram = () => {
     if (executionTimeoutRef.current) {
-      clearTimeout(executionTimeoutRef.current)
-      executionTimeoutRef.current = null
+      clearTimeout(executionTimeoutRef.current);
+      executionTimeoutRef.current = null;
     }
-    setProgramState("idle")
-    programStateRef.current = "idle"
-    setCurrentLine(-1)
-    addOutput("⏹️ Utekelezaji wa programu umesimamishwa", "info")
-  }
+    setProgramState("idle");
+    programStateRef.current = "idle";
+    setCurrentLine(-1);
+    addOutput("⏹️ Utekelezaji wa programu umesimamishwa", "info");
+  };
 
   const resetComponents = () => {
-    setComponents((prev) => prev.map((comp) => ({ ...comp, active: false })))
-    addOutput("🔄 Vifaa vyote vimeresetishwa", "info")
-  }
+    setComponents((prev) => prev.map((comp) => ({ ...comp, active: false })));
+    addOutput("🔄 Vifaa vyote vimeresetishwa", "info");
+  };
 
   const executeDirectCommand = () => {
-    if (!command.trim()) return
+    if (!command.trim()) return;
 
-    addOutput(`> ${command}`)
+    addOutput(`> ${command}`);
     executeCommand(command)
       .then(() => {
-        setError(null)
+        setError(null);
       })
       .catch((err) => {
-        setError(err.message)
-      })
+        setError(err.message);
+      });
 
-    setCommand("")
-    commandInputRef.current?.focus()
-  }
+    setCommand("");
+    commandInputRef.current?.focus();
+  };
 
   const clearOutput = () => {
-    setOutput([])
-  }
+    setOutput([]);
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-screen max-h-screen p-4">
@@ -251,7 +255,7 @@ zima(5)
                   <input
                     type="checkbox"
                     checked={loop}
-                    onChange={e => setLoop(e.target.checked)}
+                    onChange={(e) => setLoop(e.target.checked)}
                     className="accent-blue-600"
                   />
                   Rudiarudia (loop)
@@ -262,7 +266,6 @@ zima(5)
                   size="sm"
                   className="flex items-center gap-2"
                 >
-                  
                   {programState === "running" ? " ..." : <Play size={16} />}
                 </Button>
                 <Button
@@ -273,11 +276,14 @@ zima(5)
                   className="flex items-center gap-2"
                 >
                   <Square size={16} />
-                
                 </Button>
-                <Button onClick={resetComponents} size="sm" variant="outline" className="flex items-center gap-2">
+                <Button
+                  onClick={resetComponents}
+                  size="sm"
+                  variant="outline"
+                  className="flex items-center gap-2"
+                >
                   <RotateCcw size={16} />
-                 
                 </Button>
               </div>
             </div>
@@ -327,7 +333,9 @@ zima(5)
               className="bg-gray-900 text-gray-100 p-3 rounded-lg flex-1 overflow-y-auto font-mono text-sm mb-4"
             >
               {output.length === 0 ? (
-                <div className="text-gray-500 italic">Matokeo yataonekana hapa...</div>
+                <div className="text-gray-500 italic">
+                  Matokeo yataonekana hapa...
+                </div>
               ) : (
                 output.map((line, i) => (
                   <div
@@ -336,10 +344,10 @@ zima(5)
                       line.includes("❌")
                         ? "text-red-400"
                         : line.includes("✅")
-                          ? "text-green-400"
-                          : line.includes("🚀") || line.includes("✨")
-                            ? "text-blue-400"
-                            : ""
+                        ? "text-green-400"
+                        : line.includes("🚀") || line.includes("✨")
+                        ? "text-blue-400"
+                        : ""
                     }
                   >
                     {line}
@@ -357,8 +365,8 @@ zima(5)
 
             <form
               onSubmit={(e) => {
-                e.preventDefault()
-                executeDirectCommand()
+                e.preventDefault();
+                executeDirectCommand();
               }}
               className="flex gap-2"
             >
@@ -382,18 +390,15 @@ zima(5)
       <Card className="max-w-md w-full border-4">
         <CardContent className="p-6 h-full">
           <h3 className="text-lg font-medium mb-4">Vifaa vya Elektroniki</h3>
-         <div className="mb-20 text-sm text-gray-500">
-              <div className="font-medium">Nambari za Vifaa:</div>
-              <div>1: LED Nyekundu</div>
-              <div>2: LED ya Kijani</div>
-              <div>3: LED ya Buluu</div>
-              <div>4: Buzzer</div>
-              <div>5: Motor</div>
-            </div>
+          <div className="mb-20 text-sm text-gray-500">
+            <div className="font-medium">Nambari za Vifaa:</div>
+            <div>1: LED Nyekundu</div>
+            <div>2: LED ya Kijani</div>
+            <div>3: LED ya Buluu</div>
+            <div>4: Buzzer</div>
+            <div>5: Motor</div>
+          </div>
           <div className="border-2 border-gray-200 rounded-lg p-8 flex  items-center justify-center ">
-
-          
-
             <div className="flex flex-col items-center">
               <div className="grid grid-cols-1 gap-12">
                 {/* LED */}
@@ -413,11 +418,19 @@ zima(5)
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
 // LED Component
-function LED({ active, color, label }: { active: boolean; color: string; label: string }) {
+function LED({
+  active,
+  color,
+  label,
+}: {
+  active: boolean;
+  color: string;
+  label: string;
+}) {
   const ledColors = {
     red: {
       off: "bg-red-200",
@@ -434,14 +447,16 @@ function LED({ active, color, label }: { active: boolean; color: string; label: 
       on: "bg-blue-500",
       glow: "shadow-[0_0_10px_#3b82f6]",
     },
-  }
+  };
 
-  const colorConfig = ledColors[color as keyof typeof ledColors]
+  const colorConfig = ledColors[color as keyof typeof ledColors];
 
   return (
     <div className="flex flex-col items-center">
       <motion.div
-        className={`w-12 h-12 rounded-full flex items-center justify-center ${active ? colorConfig.on : colorConfig.off} ${active ? colorConfig.glow : ""} transition-colors`}
+        className={`w-12 h-12 rounded-full flex items-center justify-center ${
+          active ? colorConfig.on : colorConfig.off
+        } ${active ? colorConfig.glow : ""} transition-colors`}
         initial={{ scale: 1 }}
         animate={{ scale: active ? [1, 1.05, 1] : 1 }}
         transition={{ duration: 0.3 }}
@@ -450,22 +465,23 @@ function LED({ active, color, label }: { active: boolean; color: string; label: 
       </motion.div>
       <div className="text-xs mt-1 text-gray-600">{color.toUpperCase()}</div>
     </div>
-  )
+  );
 }
 
 // Buzzer Component with Sound
 function Buzzer({ active, label }: { active: boolean; label: string }) {
-  const audioContextRef = useRef<AudioContext | null>(null)
-  const oscillatorRef = useRef<OscillatorNode | null>(null)
-  const gainNodeRef = useRef<GainNode | null>(null)
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const oscillatorRef = useRef<OscillatorNode | null>(null);
+  const gainNodeRef = useRef<GainNode | null>(null);
 
   useEffect(() => {
     // Initialize audio context on first render
     if (!audioContextRef.current) {
       try {
-        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
+        audioContextRef.current = new (window.AudioContext ||
+          (window as any).webkitAudioContext)();
       } catch (error) {
-        console.warn("Web Audio API not supported")
+        console.warn("Web Audio API not supported");
       }
     }
 
@@ -474,41 +490,44 @@ function Buzzer({ active, label }: { active: boolean; label: string }) {
       try {
         // Resume audio context if it's suspended (required by browser policies)
         if (audioContextRef.current.state === "suspended") {
-          audioContextRef.current.resume()
+          audioContextRef.current.resume();
         }
 
         // Create oscillator for buzzer tone
-        const oscillator = audioContextRef.current.createOscillator()
-        const gainNode = audioContextRef.current.createGain()
+        const oscillator = audioContextRef.current.createOscillator();
+        const gainNode = audioContextRef.current.createGain();
 
         // Set buzzer frequency (800Hz is a typical buzzer frequency)
-        oscillator.frequency.setValueAtTime(800, audioContextRef.current.currentTime)
-        oscillator.type = "square" // Square wave for buzzer-like sound
+        oscillator.frequency.setValueAtTime(
+          800,
+          audioContextRef.current.currentTime
+        );
+        oscillator.type = "square"; // Square wave for buzzer-like sound
 
         // Set volume (start low to avoid being too loud)
-        gainNode.gain.setValueAtTime(0.1, audioContextRef.current.currentTime)
+        gainNode.gain.setValueAtTime(0.1, audioContextRef.current.currentTime);
 
         // Connect audio nodes
-        oscillator.connect(gainNode)
-        gainNode.connect(audioContextRef.current.destination)
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContextRef.current.destination);
 
         // Start the sound
-        oscillator.start()
+        oscillator.start();
 
         // Store references for cleanup
-        oscillatorRef.current = oscillator
-        gainNodeRef.current = gainNode
+        oscillatorRef.current = oscillator;
+        gainNodeRef.current = gainNode;
       } catch (error) {
-        console.warn("Could not create buzzer sound:", error)
+        console.warn("Could not create buzzer sound:", error);
       }
     } else if (!active && oscillatorRef.current) {
       // Stop the buzzer sound
       try {
-        oscillatorRef.current.stop()
-        oscillatorRef.current = null
-        gainNodeRef.current = null
+        oscillatorRef.current.stop();
+        oscillatorRef.current = null;
+        gainNodeRef.current = null;
       } catch (error) {
-        console.warn("Could not stop buzzer sound:", error)
+        console.warn("Could not stop buzzer sound:", error);
       }
     }
 
@@ -516,26 +535,37 @@ function Buzzer({ active, label }: { active: boolean; label: string }) {
     return () => {
       if (oscillatorRef.current) {
         try {
-          oscillatorRef.current.stop()
+          oscillatorRef.current.stop();
         } catch (error) {
           // Oscillator might already be stopped
         }
-        oscillatorRef.current = null
-        gainNodeRef.current = null
+        oscillatorRef.current = null;
+        gainNodeRef.current = null;
       }
-    }
-  }, [active])
+    };
+  }, [active]);
 
   return (
     <div className="flex flex-col items-center">
       <motion.div
-        className={`w-20 h-20 rounded-full bg-gray-800 border-4 ${active ? "border-yellow-400" : "border-gray-600"} flex items-center justify-center relative`}
+        className={`w-20 h-20 rounded-full bg-gray-800 border-4 ${
+          active ? "border-yellow-400" : "border-gray-600"
+        } flex items-center justify-center relative`}
         animate={active ? { rotate: [0, 5, -5, 0] } : {}}
-        transition={{ repeat: active ? Number.POSITIVE_INFINITY : 0, duration: 0.2 }}
+        transition={{
+          repeat: active ? Number.POSITIVE_INFINITY : 0,
+          duration: 0.2,
+        }}
       >
-        <span className="text-xs font-bold text-white opacity-70 absolute top-1">{label}</span>
+        <span className="text-xs font-bold text-white opacity-70 absolute top-1">
+          {label}
+        </span>
         <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">
-          <div className={`w-6 h-6 rounded-full ${active ? "bg-yellow-400" : "bg-gray-600"}`}></div>
+          <div
+            className={`w-6 h-6 rounded-full ${
+              active ? "bg-yellow-400" : "bg-gray-600"
+            }`}
+          ></div>
         </div>
 
         {active && (
@@ -544,27 +574,41 @@ function Buzzer({ active, label }: { active: boolean; label: string }) {
               className="absolute -inset-1 rounded-full border-2 border-yellow-400 opacity-70"
               initial={{ scale: 1, opacity: 0.7 }}
               animate={{ scale: 1.2, opacity: 0 }}
-              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 0.8, ease: "easeOut" }}
+              transition={{
+                repeat: Number.POSITIVE_INFINITY,
+                duration: 0.8,
+                ease: "easeOut",
+              }}
             />
             <motion.div
               className="absolute -inset-3 rounded-full border-2 border-yellow-300 opacity-50"
               initial={{ scale: 1, opacity: 0.5 }}
               animate={{ scale: 1.4, opacity: 0 }}
-              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1, ease: "easeOut" }}
+              transition={{
+                repeat: Number.POSITIVE_INFINITY,
+                duration: 1,
+                ease: "easeOut",
+              }}
             />
             <motion.div
               className="absolute -inset-5 rounded-full border-2 border-yellow-200 opacity-30"
               initial={{ scale: 1, opacity: 0.3 }}
               animate={{ scale: 1.6, opacity: 0 }}
-              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.2, ease: "easeOut" }}
+              transition={{
+                repeat: Number.POSITIVE_INFINITY,
+                duration: 1.2,
+                ease: "easeOut",
+              }}
             />
           </>
         )}
       </motion.div>
       <div className="text-xs mt-1 text-gray-600">BUZZER</div>
-      {active && <div className="text-xs text-yellow-600 font-medium">♪ BEEPING ♪</div>}
+      {active && (
+        <div className="text-xs text-yellow-600 font-medium">♪ BEEPING ♪</div>
+      )}
     </div>
-  )
+  );
 }
 
 // Motor Component
@@ -572,7 +616,9 @@ function Motor({ active, label }: { active: boolean; label: string }) {
   return (
     <div className="flex flex-col items-center">
       <div className="relative">
-        <span className="text-xs font-bold text-gray-500 absolute -top-6 left-1/2 -translate-x-1/2">{label}</span>
+        <span className="text-xs font-bold text-gray-500 absolute -top-6 left-1/2 -translate-x-1/2">
+          {label}
+        </span>
 
         {/* Motor Base */}
         <div className="w-24 h-16 bg-gray-700 rounded-lg flex items-center justify-center relative">
@@ -586,7 +632,11 @@ function Motor({ active, label }: { active: boolean; label: string }) {
           <motion.div
             className="w-16 h-16 absolute"
             animate={{ rotate: active ? 360 : 0 }}
-            transition={{ repeat: Number.POSITIVE_INFINITY, duration: active ? 1 : 0, ease: "linear" }}
+            transition={{
+              repeat: Number.POSITIVE_INFINITY,
+              duration: active ? 1 : 0,
+              ease: "linear",
+            }}
           >
             <div className="absolute top-1/2 left-1/2 w-1 h-8 bg-gray-400 -translate-x-1/2 -translate-y-1/2"></div>
             <div className="absolute top-1/2 left-1/2 w-8 h-1 bg-gray-400 -translate-x-1/2 -translate-y-1/2"></div>
@@ -598,7 +648,9 @@ function Motor({ active, label }: { active: boolean; label: string }) {
         <div className="absolute -bottom-2 right-0 w-4 h-4 bg-blue-500 rounded-full border-2 border-gray-700"></div>
       </div>
       <div className="text-xs mt-1 text-gray-600">MOTOR</div>
-      {active && <div className="text-xs text-blue-600 font-medium">⚡ SPINNING</div>}
+      {active && (
+        <div className="text-xs text-blue-600 font-medium">⚡ SPINNING</div>
+      )}
     </div>
-  )
+  );
 }
