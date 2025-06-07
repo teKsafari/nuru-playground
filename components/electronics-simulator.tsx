@@ -27,12 +27,18 @@ export default function ElectronicsSimulator() {
 
   const [code, setCode] = useState(
     `
-// Mfano: kawasha LED (taa) na buzzer   
+// Mfano: kawasha na kuzima vifaa vyote
 
 washa(1)
+washa(2)
+washa(3)
 washa(4)
+washa(5)
 subiri(1000)
+
 zima(1)
+zima(2)
+zima(3)
 zima(4)
 subiri(1000)
     `
