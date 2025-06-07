@@ -45,6 +45,7 @@ subiri(1000)
   const [currentLine, setCurrentLine] = useState(-1);
   const [error, setError] = useState<string | null>(null);
   const [loop, setLoop] = useState(true);
+  const [codeCleared, setCodeCleared] = useState(false);
 
   const commandInputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
@@ -224,7 +225,24 @@ subiri(1000)
         <Card className="flex-1">
           <CardContent className="p-4 h-full flex flex-col">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium">Mhariri</h3>
+              <h3 className="text-lg font-medium">Hariri</h3>
+              <Button
+                onClick={() => {
+                  if (!codeCleared) {
+                    setCode("");
+                    setCodeCleared(true);
+                  } else {
+                    setCode(`// Mfano: kawasha LED (taa) na buzzer   \n\nwasha(1)\nwasha(4)\nsubiri(1000)\nzima(1)\nzima(4)\nsubiri(1000)`);
+                    setCodeCleared(false);
+                  }
+                }}
+                disabled={programState === "running"}
+                size="sm"
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                {codeCleared ? "Onyesha Mfano" : "Safisha"}
+              </Button>
               <div className="flex gap-2 items-center">
                 <label className="flex items-center gap-1 text-xs select-none">
                   <input
@@ -262,7 +280,10 @@ subiri(1000)
             <div className="flex-1 relative">
               <Textarea
                 value={code}
-                onChange={(e) => setCode(e.target.value)}
+                onChange={(e) => {
+                  setCode(e.target.value);
+                  setCodeCleared(e.target.value === "");
+                }}
                 className="font-mono text-sm h-full resize-none"
                 placeholder="Andika programu yako ya elektroniki hapa..."
                 disabled={programState === "running"}
