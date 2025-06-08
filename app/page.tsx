@@ -2,14 +2,18 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CircuitBoard, Code2 } from "lucide-react";
 import { HighlightedWord } from "@/components/highlighted-word";
+import { AppLogo } from "@/components/app-logo";
 
 export default function Home() {
   return (
     <main className="font-mono min-h-screen p-4 md:p-8 pt-14 flex items-center justify-center bg-background">
       <div className="max-w-4xl mx-auto text-center">
-        <h1 className="text-5xl font-bold mb-6 text-foreground">
-          <span className="text-accent">Nuru</span> Playground
-        </h1>
+        <div className="flex items-center justify-center gap-3 mb-6 ">
+          <AppLogo size={48} className="animate-[logo-hover_1.5s_ease-in-out_infinite]" />
+          <h1 className="text-5xl font-bold text-foreground">
+            <span className="text-accent">Nuru</span> Playground
+          </h1>
+        </div>
         <p className="mb-12 text-xl text-muted-foreground max-w-2xl mx-auto">
           <HighlightedWord href="https://github.com/nuruprogramming" target="_blank">
             Nuru
