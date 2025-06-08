@@ -9,6 +9,10 @@ const config: Config = {
     "*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
+    fontFamily: {
+      sans: ["var(--font-jetbrains-mono)", "monospace"],
+      mono: ["var(--font-jetbrains-mono)", "monospace"],
+    },
   	extend: {
   		colors: {
   			background: 'hsl(var(--background))',

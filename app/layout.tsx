@@ -3,6 +3,13 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { SidebarNav } from '@/components/sidebar-nav'
+import { JetBrains_Mono } from 'next/font/google'
+
+const jetbrainsMono = JetBrains_Mono({ 
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'nuru playground',
@@ -16,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
+    <html lang="en" suppressHydrationWarning className={jetbrainsMono.variable}>
+      <body className="font-mono">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="fixed top-4 right-4 z-50">
             <ThemeToggle />

@@ -31,7 +31,7 @@ export function SidebarNav() {
   ]
 
   return (
-    <div className="fixed left-0 top-0 h-full w-16 bg-background border-r border-border flex flex-col items-center py-8 z-40">
+    <div className="fixed left-0 top-0 h-full w-16 bg-background shadow-muted-foreground shadow-right  shadow-sm shadown-inner flex flex-col items-center py-8 z-40  ">
       {navItems.map((item, index) => (
         <React.Fragment key={item.href}>
           <Link
