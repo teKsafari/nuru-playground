@@ -8,7 +8,7 @@ export default function Home() {
     <main className="font-mono min-h-screen p-4 md:p-8 pt-14 flex items-center justify-center bg-background">
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-5xl font-bold mb-6 text-foreground">
-          Nuru Playground
+          <span className="text-accent">Nuru</span> Playground
         </h1>
         <p className="mb-12 text-xl text-muted-foreground max-w-2xl mx-auto">
           <HighlightedWord href="https://github.com/nuruprogramming" target="_blank">
@@ -32,15 +32,15 @@ export default function Home() {
           <Link href="/electronics">
             <Button
               size="lg"
-              className="w-full md:w-64 h-36 flex flex-col items-center justify-center gap-3"
+              className="px-40  md:w-64 h-40 flex flex-col items-center justify-center gap-4 bg-accent hover:bg-accent/90 text-accent-foreground shadow-md hover:shadow-lg transition-all group"
             >
-              <CircuitBoard className="w-10 h-10" />
+              <CircuitBoard className="scale-[2.3] w-20 h-20 transform group-hover:scale-[2] transition-transform" />
               <div>
-                <div className="text-lg font-medium">
+                <div className="text-lg font-bold">
                   Electronics Playground
                 </div>
-                <div className="text-sm text-muted-foreground">
-                  Control circuits using Swahili
+                <div className="text-sm italic" >
+                  Program Hardware
                 </div>
               </div>
             </Button>
@@ -50,12 +50,12 @@ export default function Home() {
             <Button
               variant="outline"
               size="lg"
-              className="w-full md:w-64 h-36 flex flex-col items-center justify-center gap-3"
+              className="px-40 w-full md:w-64 h-40 flex flex-col items-center justify-center gap-4 border-accent/50 hover:border-accent hover:bg-accent/10 shadow-md hover:shadow-lg transition-all group"
             >
-              <Code2 className="w-10 h-10" />
+              <Code2 className="scale-[2.3] w-20 h-20 text-accent transform group-hover:scale-[2] transition-transform" />
               <div>
-                <div className="text-lg font-medium">Software Playground</div>
-                <div className="text-sm text-muted-foreground">Coming soon</div>
+                <div className="text-lg font-bold">Software Playground </div>
+                <div className="text-sm italic">Build Software Programs</div>
               </div>
             </Button>
           </Link>
