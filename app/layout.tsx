@@ -7,8 +7,9 @@ import { JetBrains_Mono } from 'next/font/google'
 
 const jetbrainsMono = JetBrains_Mono({ 
   subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
   display: 'swap',
+  weight: ['400', '500', '700'],
+  variable: '--font-jetbrains-mono',
 })
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={jetbrainsMono.variable}>
-      <body className="font-mono">
+      <body className={jetbrainsMono.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="fixed top-4 right-4 z-50">
             <ThemeToggle />
