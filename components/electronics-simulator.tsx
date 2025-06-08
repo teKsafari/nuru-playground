@@ -243,27 +243,29 @@ subiri(200)
           <CardContent className="p-4 h-full flex flex-col">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium">Hariri</h3>
-              <Button
-                onClick={() => {
-                  if (!codeCleared) {
-                    setCode("");
-                    setCodeCleared(true);
-                  } else {
-                    setCode(`${exampleCode}`);
-                    setCodeCleared(false);
-                  }
-                }}
-                disabled={programState === "running"}
-                size="sm"
-                variant="outline"
-                className="flex items-center gap-2"
-              >
-                {codeCleared ? "Onyesha Mfano" : "Safisha"}
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={() => {
+                    if (!codeCleared) {
+                      setCode("");
+                      setCodeCleared(true);
+                    } else {
+                      setCode(`${exampleCode}`);
+                      setCodeCleared(false);
+                    }
+                  }}
+                  disabled={programState === "running"}
+                  size="sm"
+                  variant="outline"
+                  className="flex items-center gap-2"
+                >
+                  {codeCleared ? "Onyesha Mfano" : "Safisha"}
+                </Button>
+              </div>
               <div className="flex gap-2 items-center">
                 <label
                   className={`flex items-center gap-1 text-xs select-none ${
-                  programState === "running" ? "text-gray-400" : ""
+                  programState === "running" ? "text-gray-400 dark:text-gray-500" : ""
                   }`}
                 >
                   <input
@@ -324,8 +326,8 @@ subiri(200)
             </div>
 
             {programState === "running" && (
-              <div className="mt-2 text-sm text-blue-600 flex items-center gap-2">
-                <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" />
+              <div className="mt-2 text-sm text-blue-600 dark:text-blue-400 flex items-center gap-2">
+                <div className="w-2 h-2 bg-blue-600 dark:bg-blue-400 rounded-full animate-pulse" />
                 Programu inaendelea... (Mstari {currentLine + 1})
               </div>
             )}
@@ -344,10 +346,10 @@ subiri(200)
 
             <div
               ref={outputRef}
-              className="bg-gray-900 text-gray-100 p-3 rounded-lg flex-1 overflow-y-auto font-mono text-sm mb-4"
+              className="bg-gray-900 dark:bg-gray-950 text-gray-100 p-3 rounded-lg flex-1 overflow-y-auto font-mono text-sm mb-4"
             >
               {output.length === 0 ? (
-                <div className="text-gray-500 italic">
+                <div className="text-gray-500 dark:text-gray-400 italic">
                   Matokeo yataonekana hapa...
                 </div>
               ) : (
@@ -356,11 +358,11 @@ subiri(200)
                     key={i}
                     className={
                       line.includes("❌")
-                        ? "text-red-400"
+                        ? "text-red-400 dark:text-red-400"
                         : line.includes("✅")
-                        ? "text-green-400"
+                        ? "text-green-400 dark:text-green-400"
                         : line.includes("🚀") || line.includes("✨")
-                        ? "text-blue-400"
+                        ? "text-blue-400 dark:text-blue-300"
                         : ""
                     }
                   >
@@ -371,7 +373,7 @@ subiri(200)
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 text-red-500 mb-2 text-sm">
+              <div className="flex items-center gap-2 text-red-500 dark:text-red-400 mb-2 text-sm">
                 <AlertCircle size={16} />
                 <span>{error}</span>
               </div>
@@ -401,10 +403,10 @@ subiri(200)
       </div>
 
       {/* Upande wa Kulia - Vifaa vya Elektroniki */}
-      <Card className="max-w-md w-full border-4">
+      <Card className="max-w-md w-full border-4 border-border">
         <CardContent className="p-6 h-full">
           <h3 className="text-lg font-medium mb-4">Vifaa vya Elektroniki</h3>
-          <div className="mb-20 text-sm text-gray-500">
+          <div className="mb-20 text-sm text-muted-foreground">
             <div className="font-medium">Nambari za Vifaa:</div>
             <div>1: LED Nyekundu</div>
             <div>2: LED ya Kijani</div>
@@ -412,7 +414,7 @@ subiri(200)
             <div>4: Buzzer</div>
             <div>5: Motor</div>
           </div>
-          <div className="border-2 border-gray-200 rounded-lg p-8 flex  items-center justify-center ">
+          <div className="border-2 border-border rounded-lg p-8 flex items-center justify-center bg-background">
             <div className="flex flex-col items-center">
               <div className="grid grid-cols-1 gap-12">
                 {/* LED */}
@@ -447,19 +449,19 @@ function LED({
 }) {
   const ledColors = {
     red: {
-      off: "bg-red-200",
-      on: "bg-red-500",
-      glow: "shadow-[0_0_10px_#ef4444]",
+      off: "bg-red-200 dark:bg-red-950",
+      on: "bg-red-500 dark:bg-red-600",
+      glow: "shadow-[0_0_10px_#ef4444] dark:shadow-[0_0_15px_#ef4444]",
     },
     green: {
-      off: "bg-green-200",
-      on: "bg-green-500",
-      glow: "shadow-[0_0_10px_#22c55e]",
+      off: "bg-green-200 dark:bg-green-950",
+      on: "bg-green-500 dark:bg-green-600",
+      glow: "shadow-[0_0_10px_#22c55e] dark:shadow-[0_0_15px_#22c55e]",
     },
     blue: {
-      off: "bg-blue-200",
-      on: "bg-blue-500",
-      glow: "shadow-[0_0_10px_#3b82f6]",
+      off: "bg-blue-200 dark:bg-blue-950",
+      on: "bg-blue-500 dark:bg-blue-600",
+      glow: "shadow-[0_0_10px_#3b82f6] dark:shadow-[0_0_15px_#3b82f6]",
     },
   };
 
@@ -477,7 +479,7 @@ function LED({
       >
         <span className="text-xs font-bold text-white opacity-70">{label}</span>
       </motion.div>
-      <div className="text-xs mt-1 text-gray-600">{color.toUpperCase()}</div>
+      <div className="text-xs mt-1 text-gray-600 dark:text-gray-400">{color.toUpperCase()}</div>
     </div>
   );
 }
@@ -562,8 +564,8 @@ function Buzzer({ active, label }: { active: boolean; label: string }) {
   return (
     <div className="flex flex-col items-center">
       <motion.div
-        className={`w-20 h-20 rounded-full bg-gray-800 border-4 ${
-          active ? "border-yellow-400" : "border-gray-600"
+        className={`w-20 h-20 rounded-full bg-gray-800 dark:bg-gray-900 border-4 ${
+          active ? "border-yellow-400" : "border-gray-600 dark:border-gray-700"
         } flex items-center justify-center relative`}
         animate={active ? { rotate: [0, 5, -5, 0] } : {}}
         transition={{
@@ -574,10 +576,10 @@ function Buzzer({ active, label }: { active: boolean; label: string }) {
         <span className="text-xs font-bold text-white opacity-70 absolute top-1">
           {label}
         </span>
-        <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-full bg-gray-700 dark:bg-gray-800 flex items-center justify-center">
           <div
             className={`w-6 h-6 rounded-full ${
-              active ? "bg-yellow-400" : "bg-gray-600"
+              active ? "bg-yellow-400" : "bg-gray-600 dark:bg-gray-700"
             }`}
           ></div>
         </div>
@@ -617,7 +619,7 @@ function Buzzer({ active, label }: { active: boolean; label: string }) {
           </>
         )}
       </motion.div>
-      <div className="text-xs mt-1 text-gray-600">BUZZER</div>
+      <div className="text-xs mt-1 text-gray-600 dark:text-gray-400">BUZZER</div>
     </div>
   );
 }
@@ -656,17 +658,17 @@ function Motor({ active, label }: { active: boolean; label: string }) {
       <motion.div
         className="relative"
       >
-        <span className="text-xs font-bold text-gray-500 absolute -top-6 left-1/2 -translate-x-1/2">
+        <span className="text-xs font-bold text-gray-500 dark:text-gray-400 absolute -top-6 left-1/2 -translate-x-1/2">
           {label}
         </span>
 
         {/* Motor Base */}
-        <div className={`w-24 h-16 bg-gray-700 rounded-lg flex items-center justify-center relative ${
+        <div className={`w-24 h-16 bg-gray-700 dark:bg-gray-800 rounded-lg flex items-center justify-center relative ${
           active ? "ring-2 ring-blue-400 ring-opacity-70" : ""
         }`}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center z-10">
-              <div className="w-2 h-2 rounded-full bg-gray-600"></div>
+            <div className="w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-900 flex items-center justify-center z-10">
+              <div className="w-2 h-2 rounded-full bg-gray-600 dark:bg-gray-700"></div>
             </div>
           </div>
 
@@ -692,8 +694,8 @@ function Motor({ active, label }: { active: boolean; label: string }) {
               }
             }}
           >
-            <div className="absolute top-1/2 left-1/2 w-1 h-8 bg-gray-400 -translate-x-1/2 -translate-y-1/2"></div>
-            <div className="absolute top-1/2 left-1/2 w-8 h-1 bg-gray-400 -translate-x-1/2 -translate-y-1/2"></div>
+            <div className="absolute top-1/2 left-1/2 w-1 h-8 bg-gray-400 dark:bg-gray-300 -translate-x-1/2 -translate-y-1/2"></div>
+            <div className="absolute top-1/2 left-1/2 w-8 h-1 bg-gray-400 dark:bg-gray-300 -translate-x-1/2 -translate-y-1/2"></div>
             
             {/* Circular sector marker to visualize rotation */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -721,10 +723,10 @@ function Motor({ active, label }: { active: boolean; label: string }) {
         </div>
 
         {/* Motor Terminals */}
-        <div className={`absolute -bottom-2 left-0 w-4 h-4 ${active ? "bg-red-600" : "bg-red-500"} rounded-full border-2 border-gray-700`}></div>
-        <div className={`absolute -bottom-2 right-0 w-4 h-4 ${active ? "bg-blue-600" : "bg-blue-500"} rounded-full border-2 border-gray-700`}></div>
+        <div className={`absolute -bottom-2 left-0 w-4 h-4 ${active ? "bg-red-600" : "bg-red-500 dark:bg-red-700"} rounded-full border-2 border-gray-700 dark:border-gray-800`}></div>
+        <div className={`absolute -bottom-2 right-0 w-4 h-4 ${active ? "bg-blue-600" : "bg-blue-500 dark:bg-blue-700"} rounded-full border-2 border-gray-700 dark:border-gray-800`}></div>
       </motion.div>
-      <div className="text-xs mt-1 text-gray-600">MOTOR</div>
+      <div className="text-xs mt-1 text-gray-600 dark:text-gray-400">MOTOR</div>
     </div>
   );
 }
