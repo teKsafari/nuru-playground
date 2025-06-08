@@ -16,7 +16,7 @@ export default function Home() {
             <Button size="lg" className="w-full md:w-64 h-36 flex flex-col items-center justify-center gap-3">
               <CircuitBoard className="w-10 h-10" />
               <div>
-                <div className="text-lg font-medium">Electronics Simulator</div>
+                <div className="text-lg font-medium">Electronics Playground</div>
                 <div className="text-sm text-muted-foreground">Control circuits using Swahili</div>
               </div>
             </Button>
@@ -26,7 +26,7 @@ export default function Home() {
             <Button variant="outline" size="lg" className="w-full md:w-64 h-36 flex flex-col items-center justify-center gap-3">
               <Code2 className="w-10 h-10" />
               <div>
-                <div className="text-lg font-medium">Software Simulator</div>
+                <div className="text-lg font-medium">Software Playground</div>
                 <div className="text-sm text-muted-foreground">Coming soon</div>
               </div>
             </Button>
