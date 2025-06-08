@@ -237,9 +237,9 @@ subiri(200)
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-screen max-h-screen p-4">
       {/* Upande wa Kushoto - Mhariri wa Msimbo na Terminal */}
-      <div className="flex flex-col gap-4 h-full">
+      <div className="flex flex-col gap-4 h-full ">
         {/* Mhariri wa Msimbo */}
-        <Card className="flex-1">
+        <Card className="flex-1 border-[1px] border-accent">
           <CardContent className="p-4 h-full flex flex-col">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium">Hariri</h3>
@@ -335,7 +335,7 @@ subiri(200)
         </Card>
 
         {/* Terminal */}
-        <Card className="h-80">
+        <Card className="h-80 border-[1px] border-accent">
           <CardContent className="p-4 h-full flex flex-col">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-lg font-medium">Terminali</h3>
@@ -403,7 +403,7 @@ subiri(200)
       </div>
 
       {/* Upande wa Kulia - Vifaa vya Elektroniki */}
-      <Card className="max-w-md w-full border-4 border-border">
+      <Card className="max-w-md w-full border-[1px] border-accent">
         <CardContent className="p-6 h-full">
           <h3 className="text-lg font-medium mb-4">Vifaa vya Elektroniki</h3>
           <div className="mb-20 text-sm text-muted-foreground">
@@ -414,7 +414,7 @@ subiri(200)
             <div>4: Buzzer</div>
             <div>5: Motor</div>
           </div>
-          <div className="border-2 border-border rounded-lg p-8 flex items-center justify-center bg-background">
+          <div className="border-[1px] border-accent rounded-lg p-8 flex items-center justify-center bg-background">
             <div className="flex flex-col items-center">
               <div className="grid grid-cols-1 gap-12">
                 {/* LED */}
