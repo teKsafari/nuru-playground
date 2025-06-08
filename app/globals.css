@@ -92,3 +92,13 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes sprout-glow {
+  0% { opacity: 0.5; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0.5; transform: scale(0.9); }
+}
+
+.sprout-pulse {
+  animation: sprout-glow 3s infinite ease-in-out;
+}
