@@ -7,7 +7,7 @@ export default function SoftwarePage() {
   return (
     <main className="font-mono min-h-screen p-4 md:p-8 pt-14 bg-background">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-foreground">Software Playground (Coming soon) </h1>
+        <h1 className="text-3xl font-bold mb-6 text-foreground">Software Playground</h1>
         <p className="mb-8 text-muted-foreground">
           Tengeneza Program kwa lugha mama - Nuru!
         </p>
