@@ -11,10 +11,17 @@ export default function Home() {
           Nuru Playground
         </h1>
         <p className="mb-12 text-xl text-muted-foreground max-w-2xl mx-auto">
-          <HighlightedWord href="https://nuruprogramming.org" target="_blank">
+          <HighlightedWord href="https://github.com/nuruprogramming" target="_blank">
             Nuru
           </HighlightedWord>
-            is a Swahili Programming language, Originally authored by <HighlightedWord target="_blank" href="https://github.com/AvicennaJr">Fuad Habib</HighlightedWord> in 2021, and now maintained by the <HighlightedWord href="https://nuruprogramming.org/foundation">nuruprogramming foundation</HighlightedWord>.{" "}
+          is a Swahili Programming language, Originally authored by{" "}
+          <HighlightedWord target="_blank" href="https://github.com/AvicennaJr">
+            Fuad Habib
+          </HighlightedWord>{" "}
+          in 2021, and now maintained by the{" "}
+          <HighlightedWord href="https://nuruprogramming.org" target="_blank">
+            nuruprogramming foundation.
+          </HighlightedWord> <br />
           <br />
           teKsafari is excited to work with the Nuru Community to build an
           ecosytem around the language to help swahili speakers learn and master
