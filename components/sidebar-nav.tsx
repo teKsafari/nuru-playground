@@ -43,7 +43,7 @@ export function SidebarNav() {
             href={item.href}
             className={`flex flex-col items-center justify-center w-12 h-12 mb-4 rounded-md transition-colors ${
               item.active
-                ? "bg-accent text-accent-foreground"
+                ? "bg-slate-100 dark:bg-slate-900 text-accent-foreground"
                 : "hover:bg-muted text-muted-foreground hover:text-foreground"
             }`}
             title={item.label}

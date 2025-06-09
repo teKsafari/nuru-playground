@@ -3,6 +3,8 @@
 import React from 'react'
 import Link from 'next/link'
 
+import { cn } from '@/lib/utils'
+
 interface HighlightedWordProps {
   children: React.ReactNode;
   href?: string;
@@ -12,13 +14,12 @@ interface HighlightedWordProps {
 
 export function HighlightedWord({ children, href, className = '', target }: HighlightedWordProps) {
   const baseStyles = "inline-block border-b-2 border-primary rounded px-2 font-light italic text-foreground bg-background mr-1";
-  const combinedClassName = `${baseStyles} ${className}`;
 
   if (href) {
     return (
       <Link 
         href={href} 
-        className={combinedClassName} 
+        className={cn(baseStyles, className)} 
         target={target}
         rel={target === '_blank' ? "noopener noreferrer" : undefined}
       >
@@ -28,7 +29,7 @@ export function HighlightedWord({ children, href, className = '', target }: High
   }
 
   return (
-    <span className={combinedClassName}>
+    <span className={cn(baseStyles, className)} >
       {children}
     </span>
   );
