@@ -5,66 +5,64 @@ import { HighlightedWord } from "@/components/highlighted-word";
 import { AppLogo } from "@/components/app-logo";
 
 export default function Home() {
-  return (
-    <main className="font-mono min-h-screen p-4 md:p-8 pt-14 flex items-center justify-center bg-background">
-      <div className="max-w-4xl mx-auto text-center">
-        <div className="flex items-center justify-center gap-3 mb-6 ">
-          <AppLogo size={48} className="animate-[logo-hover_1.5s_ease-in-out_infinite]" />
-          <h1 className="text-5xl font-bold text-foreground">
-            <span className="text-accent">Nuru</span> Playground
-          </h1>
-        </div>
-        <p className="mb-12 text-xl text-muted-foreground max-w-2xl mx-auto">
-          <HighlightedWord href="https://github.com/nuruprogramming" target="_blank">
-            Nuru
-          </HighlightedWord>
-          is a Swahili Programming language, Originally authored by{" "}
-          <HighlightedWord target="_blank" href="https://github.com/AvicennaJr">
-            Fuad Habib
-          </HighlightedWord>{" "}
-          in 2021, and now maintained by the{" "}
-          <HighlightedWord href="https://nuruprogramming.org" target="_blank">
-            nuruprogramming foundation.
-          </HighlightedWord> <br />
-          <br />
-          teKsafari is excited to work with the Nuru Community to build an
-          ecosytem around the language to help swahili speakers learn and master
-          technology in a way that feels familiar to them.
-        </p>
+	return (
+		<main className="flex min-h-screen items-center justify-center bg-background p-4 pt-14 font-mono md:p-8">
+			<div className="mx-auto max-w-4xl text-center">
+				<div className="mb-6 flex items-center justify-center gap-3">
+					<AppLogo
+						size={48}
+						className="animate-[logo-hover_1.5s_ease-in-out_infinite]"
+					/>
+					<h1 className="text-5xl font-bold text-foreground">
+						<span className="text-yellow-500">Nuru</span> Playground
+					</h1>
+				</div>
+				<p className="mx-auto mb-12 max-w-2xl text-xl text-muted-foreground">
+					<HighlightedWord
+						href="https://github.com/nuruprogramming"
+						target="_blank"
+					>
+						Nuru
+					</HighlightedWord>
+					is a Swahili Programming language, Originally authored by{" "}
+					<HighlightedWord target="_blank" href="https://github.com/AvicennaJr">
+						Fuad Habib
+					</HighlightedWord>{" "}
+					in 2021, and now maintained by the{" "}
+					<HighlightedWord href="https://nuruprogramming.org" target="_blank">
+						nuruprogramming foundation.
+					</HighlightedWord>{" "}
+					<br />
+					<br />
+					teKsafari is excited to work with the Nuru Community to build an
+					ecosytem around the language to help swahili speakers learn and master
+					technology in a way that feels familiar to them.
+				</p>
 
-        <div className="flex flex-col md:flex-row gap-6 justify-center">
-          <Link href="/electronics">
-            <Button
-              size="lg"
-              className="px-40  md:w-64 h-40 flex flex-col items-center justify-center gap-4 bg-accent hover:bg-accent/90 text-accent-foreground shadow-md hover:shadow-lg transition-all group"
-            >
-              <CircuitBoard className="scale-[2.3] w-20 h-20 transform group-hover:scale-[2] transition-transform" />
-              <div>
-                <div className="text-lg font-bold">
-                  Electronics Playground
-                </div>
-                <div className="text-sm italic" >
-                  Program Hardware
-                </div>
-              </div>
-            </Button>
-          </Link>
+				<div className="flex max-w-2xl flex-col justify-center gap-6 md:flex-row">
+					<Link
+						href="/electronics"
+						className="group flex flex-1 flex-col items-center justify-center gap-4 hover:bg-slate-900 p-10 text-accent-foreground rounded-lg border transition-all hover:shadow-lg"
+					>
+						<CircuitBoard size={24} className="transform transition-transform group-hover:scale-[1.3]" />
+						<div>
+							<div className="text-lg font-bold">Electronics Playground</div>
+							<div className="text-sm italic">Program Hardware</div>
+						</div>
+					</Link>
 
-          <Link href="/software">
-            <Button
-              variant="outline"
-              size="lg"
-              className="px-40 w-full md:w-64 h-40 flex flex-col items-center justify-center gap-4 border-accent/50 hover:border-accent hover:bg-accent/10 shadow-md hover:shadow-lg transition-all group"
-            >
-              <Code2 className="scale-[2.3] w-20 h-20 text-accent transform group-hover:scale-[2] transition-transform" />
-              <div>
-                <div className="text-lg font-bold">Software Playground </div>
-                <div className="text-sm italic">Build Software Programs</div>
-              </div>
-            </Button>
-          </Link>
-        </div>
-      </div>
-    </main>
-  );
+					<Link
+						href={"/software"}
+						className="group flex w-full flex-1 flex-col items-center justify-center gap-4 hover:bg-slate-900 border-accent p-10 rounded-lg border  transition-all hover:shadow-lg"
+					>
+						<Code2 size={24} className="transform transition-transform group-hover:scale-[1.3]" />
+						<div>
+							<div className="text-lg font-bold">Software Playground </div>
+							<div className="text-sm italic">Build Software Programs</div>
+						</div>
+					</Link>
+				</div>
+			</div>
+		</main>
+	);
 }
