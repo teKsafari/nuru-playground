@@ -44,7 +44,7 @@ export default function Home() {
 
 					<Link
 						href="/electronics"
-						className="group logo-pulse flex flex-1 flex-col items-center justify-center gap-4 hover:bg-slate-900 p-10 text-accent-foreground rounded-lg border transition-all hover:shadow-lg"
+						className="group logo-pulse flex flex-1 flex-col items-center justify-center gap-4 hover:bg-accent p-10 text-accent-foreground rounded-lg border transition-all hover:shadow-lg"
 					>
 						<CircuitBoard size={24} className="transform transition-transform group-hover:scale-[1.3]" />
 						<div>
@@ -55,7 +55,7 @@ export default function Home() {
 
 					<Link
 						href={"/software"}
-						className="group logo-pulse flex w-full flex-1 flex-col items-center justify-center gap-4 hover:bg-slate-900 border-accent p-10 rounded-lg border  transition-all hover:shadow-lg"
+						className="group  flex w-full flex-1 flex-col items-center justify-center gap-4 hover:bg-accent  border-accent p-10 rounded-lg border  transition-all hover:shadow-lg"
 					>
 						<Code2 size={24} className="transform transition-transform group-hover:scale-[1.3]" />
 						<div>
