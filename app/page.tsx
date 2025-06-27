@@ -18,26 +18,10 @@ export default function Home() {
 					</h1>
 				</div>
 				<p className="mx-auto mb-12 max-w-2xl text-xl text-muted-foreground">
-					<HighlightedWord
-						href="https://github.com/nuruprogramming"
-						target="_blank"
-					>
-						Nuru
-					</HighlightedWord>
-					is a Swahili Programming language, Originally authored by{" "}
-					<HighlightedWord target="_blank" href="https://github.com/AvicennaJr">
-						Fuad Habib,
-					</HighlightedWord>{" "}
-					 and now maintained by the{" "}
-					<HighlightedWord href="https://nuruprogramming.org" target="_blank">
-						nuruprogramming foundation.
-					</HighlightedWord>{" "}
+					While the world races toward AGI, millions of people from underserved communities like East Africa are still left out of the conversation — not for lack of curiosity, but because of systemic barriers: limited access, high costs, and a digital world built in a language they don't speak.
 					<br />
 					<br />
-					<HighlightedWord className="logo-pulse" href="https://teksafari.org">teKsafari</HighlightedWord> is excited to work with the Nuru Community to build an
-					ecosytem around the language to help swahili speakers learn and master
-					technology in a way that feels familiar to them.
-					
+					Nuru is a Swahili-first programming language and learning ecosystem built to change that. We empower young people to code, build, and experiment in the language they speak at home — unlocking creativity through culturally relevant tools and accessible learning environments.
 				</p>
 
 				<div className="flex max-w-2xl flex-col justify-center gap-6 md:flex-row">
