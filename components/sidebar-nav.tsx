@@ -2,7 +2,7 @@
 
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { CircuitBoard, Code2, Home, Sprout } from "lucide-react";
+import { CircuitBoard, Code2, Home, Sprout, Github } from "lucide-react";
 import Link from "next/link";
 import { AppLogo } from "./app-logo";
 
@@ -34,6 +34,19 @@ export function SidebarNav() {
           </div>
         </Link>
       </div>
+      
+      {/* GitHub Link */}
+      <div className="mb-4">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://github.com/teksafari/nuru-playground"
+          className="flex flex-col items-center justify-center w-12 h-12 rounded-md transition-colors hover:bg-muted text-muted-foreground hover:text-foreground"
+          title="Nuru GitHub Repository"
+        >
+          <Github className="w-6 h-6" />
+        </a>
+      </div>
 
       <div className="w-8 h-[0.1px] bg-muted-foreground mb-4 rounded-full"></div>
 
@@ -43,7 +56,7 @@ export function SidebarNav() {
             href={item.href}
             className={`flex flex-col items-center justify-center w-12 h-12 mb-4 rounded-md transition-colors ${
               item.active
-                ? "bg-slate-100 dark:bg-slate-900 text-accent-foreground"
+                ? "bg-accent text-accent-foreground"
                 : "hover:bg-muted text-muted-foreground hover:text-foreground"
             }`}
             title={item.label}
